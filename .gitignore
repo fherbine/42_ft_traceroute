@@ -1,0 +1,12 @@
+# binaries
+a.out
+ft_ping
+
+# objects files
+*.o
+
+# config
+.vscode
+
+# libs
+*.a
