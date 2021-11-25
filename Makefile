@@ -2,7 +2,7 @@ NAME = ft_traceroute
 INCLUDES = ./includes
 SRC_PATH = ./sources
 OBJ_PATH = $(SRC_PATH)/debug
-SRC_NAMES = traceroute.c nslookup.c error.c
+SRC_NAMES = traceroute.c nslookup.c error.c parser.c
 OBJ_NAMES = $(SRC_NAMES:.c=.o)
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAMES))
 OBJS = $(addprefix $(OBJ_PATH)/,$(OBJ_NAMES))
