@@ -1,6 +1,6 @@
 # binaries
 a.out
-ft_ping
+ft_traceroute
 
 # objects files
 *.o
