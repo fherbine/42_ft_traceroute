@@ -17,11 +17,6 @@ static void		display_option(char *letter, char *description, char *placeholder)
 	printf("  %s %-16s%s\n", letter, placeholder, description);
 }
 
-void		proper_exit(int status)
-{
-	__NOP__(status);
-}
-
 void		display_help(int status)
 {
 	printf("\nUsage\n");
@@ -30,13 +25,13 @@ void		display_help(int status)
 	display_option("", "  dns name or ip address", "<destination>");
 	display_option("-I", "use ICMP probes instead of UDP (by default).", "");
 	display_option("-h", "print help and exit", "");
-	proper_exit(status);
+	exit(status);
 }
 
 void	message_description_exit(char *identifier, char *msg, int status)
 {
 	dprintf((!status) ? STDOUT : STDERR, "ft_traceroute: %s: %s\n", identifier, msg);
-	proper_exit(status);
+	exit(status);
 }
 
 void	invalid_option(char option_char)
@@ -50,5 +45,5 @@ void	message_exit(char *msg, int status, uint8_t with_help)
 	dprintf((!status) ? STDOUT : STDERR, "ft_traceroute %s\n", msg);
 	if (with_help)
 		display_help(status);
-	proper_exit(status);
+	exit(status);
 }

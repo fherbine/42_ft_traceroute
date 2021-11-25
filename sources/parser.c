@@ -28,7 +28,10 @@ static void	get_args(int start, int end, char **tab, t_traceroute **tracert)
 				continue;
 			}
 			else
+			{
+				free_tracert(*tracert);
 				display_help(EXIT_FAILURE);
+			}
 		}
 		
 		i2 = 1;
@@ -41,7 +44,10 @@ static void	get_args(int start, int end, char **tab, t_traceroute **tracert)
 			else if (option == 'I')
 				(*tracert)->options |= TRACERT_OPT_ICMP;
 			else
+			{
+				free_tracert(*tracert);
 				invalid_option(option);
+			}
 			i2++;
 		}
 		i++;
@@ -51,10 +57,16 @@ static void	get_args(int start, int end, char **tab, t_traceroute **tracert)
 void		parse(int argc, char **argv, t_traceroute *tracert)
 {
 	if (argc < 2)
+	{
+		free_tracert(tracert);
 		message_description_exit("usage error", \
 								 "Destination address required", EXIT_FAILURE);
+	}
 	get_args(1, argc, argv, &tracert);
 
 	if (tracert->options & TRACERT_OPT_HELP)
+	{
+		free_tracert(tracert);	
 		display_help(EXIT_SUCCESS);
+	}
 }

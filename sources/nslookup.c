@@ -34,10 +34,10 @@ void				dnslookup(char *host, t_sockaddr *addr, uint8_t ipver)
 	p = first_info;
 	while (p)
 	{
-		if (ipver == AF_INET)
-			addr = ((t_sockaddr *)p->ai_addr);
-		else if (ipver == AF_INET6)
-			addr = ((t_sockaddr *)p->ai_addr);
+		if (p->ai_family == ipver)
+			ft_memcpy(addr, ((t_sockaddr *)p->ai_addr), sizeof(t_sockaddr_in));
+		else if (p->ai_family == ipver)
+			ft_memcpy(addr, ((t_sockaddr *)p->ai_addr), sizeof(t_sockaddr_in6));
 
 		p = p->ai_next;
 	}
