@@ -68,4 +68,7 @@ void	parse(int argc, char **argv, t_traceroute *tracert);
 /* main.c */
 void 	free_tracert(t_traceroute *tracert);
 
+/* debug.c */
+void	print_buffer(void *buffer_addr, ssize_t len);
+
 #endif
