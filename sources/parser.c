@@ -24,6 +24,7 @@ static void	get_args(int start, int end, char **tab, t_traceroute **tracert)
 			if ((*tracert)->name_or_service == NULL)
 			{
 				(*tracert)->name_or_service = tab[i];
+				(*tracert)->nos_index = i;
 				i++;
 				continue;
 			}
@@ -46,7 +47,7 @@ static void	get_args(int start, int end, char **tab, t_traceroute **tracert)
 			else
 			{
 				free_tracert(*tracert);
-				invalid_option(option);
+				invalid_option(option, i);
 			}
 			i2++;
 		}
@@ -59,8 +60,7 @@ void		parse(int argc, char **argv, t_traceroute *tracert)
 	if (argc < 2)
 	{
 		free_tracert(tracert);
-		message_description_exit("usage error", \
-								 "Destination address required", EXIT_FAILURE);
+		display_help(EXIT_FAILURE);
 	}
 	get_args(1, argc, argv, &tracert);
 
@@ -72,4 +72,7 @@ void		parse(int argc, char **argv, t_traceroute *tracert)
 
 	if (!(tracert->options & TRACERT_OPT_ICMP))
 		tracert->ipv4.sin_port = htons(UDP_PORT);
+
+	if (!tracert->name_or_service)
+		message_exit("Specify \"host\" missing argument.", EXIT_FAILURE, FALSE);
 }

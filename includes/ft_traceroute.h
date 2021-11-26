@@ -58,6 +58,7 @@ typedef	double t_time;
 typedef struct		s_traceroute
 {
 	char			*name_or_service;
+	int				nos_index;
 	t_sockaddr_in	ipv4;
 	uint8_t			options;
 	int				snd_socket;
@@ -71,11 +72,12 @@ typedef struct		s_traceroute
 void		proper_exit(int status, t_traceroute *tracert);
 void		display_help(int status);
 void		message_description_exit(char *identifier, char *msg, int status);
-void		invalid_option(char option_char);
+void		message_description(char *identifier, char *msg, int status, uint8_t with_exit);
+void		invalid_option(char option_char, int argc);
 void		message_exit(char *msg, int status, uint8_t with_help);
 
 /* nslookup.c */
-void		dnslookup(char *host, t_sockaddr *addr, uint8_t ipver);
+void		dnslookup(char *host, t_sockaddr *addr, uint8_t ipver, t_traceroute *tracert);
 void		reversedns4(t_sockaddr_in *addr, char **host);
 
 /* parser.c */

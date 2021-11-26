@@ -20,29 +20,35 @@ static void		display_option(char *letter, char *description, char *placeholder)
 void		display_help(int status)
 {
 	printf("\nUsage\n");
-	printf("  ./ft_traceroute [options] <destination>\n");
+	printf("  ./ft_traceroute [ -I ] <destination>\n");
 	printf("\nOptions:\n");
 	display_option("", "  dns name or ip address", "<destination>");
-	display_option("-I", "use ICMP probes instead of UDP (by default).", "");
+	display_option("-I", "Use ICMP ECHO for tracerouting", "");
 	display_option("-h", "print help and exit", "");
 	exit(status);
 }
 
 void	message_description_exit(char *identifier, char *msg, int status)
 {
-	dprintf((!status) ? STDOUT : STDERR, "ft_traceroute: %s: %s\n", identifier, msg);
-	exit(status);
+	message_description(identifier, msg, status, TRUE);
 }
 
-void	invalid_option(char option_char)
+void	message_description(char *identifier, char *msg, int status, uint8_t with_exit)
 {
-	dprintf(STDERR, "ft_traceroute: invalid option -- '%c'\n", option_char);
-	display_help(EXIT_FAILURE);
+	dprintf((!status) ? STDOUT : STDERR, "%s: %s\n", identifier, msg);
+	if (with_exit)
+		exit(status);
+}
+
+void	invalid_option(char option_char, int argc)
+{
+	dprintf(STDERR, "Bad option `-%c' (argc %d)\n", option_char, argc);
+	exit(EXIT_FAILURE);
 }
 
 void	message_exit(char *msg, int status, uint8_t with_help)
 {
-	dprintf((!status) ? STDOUT : STDERR, "ft_traceroute %s\n", msg);
+	dprintf((!status) ? STDOUT : STDERR, "%s\n", msg);
 	if (with_help)
 		display_help(status);
 	exit(status);

@@ -20,6 +20,8 @@ static t_traceroute	*get_tracert_struct(void)
 		exit(EXIT_FAILURE);
 	
 	ft_bzero(tracert, sizeof(t_traceroute));
+	tracert->name_or_service = NULL;
+	
 	return (tracert);
 }
 
@@ -32,7 +34,7 @@ int					main(int argc, char **argv)
 {
 	t_traceroute *tracert = get_tracert_struct();
 	parse(argc, argv, tracert);
-	dnslookup(tracert->name_or_service, (t_sockaddr *)&(tracert->ipv4), AF_INET);
+	dnslookup(tracert->name_or_service, (t_sockaddr *)&(tracert->ipv4), AF_INET, tracert);
 	ft_traceroute(tracert);
 	free_tracert(tracert);
 	return (0);

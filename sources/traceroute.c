@@ -21,14 +21,13 @@ static void create_sockets(t_traceroute *tracert)
 	if ((tracert->snd_socket = socket(AF_INET, sock_type, sock_proto)) == -1)
 	{
 		free_tracert(tracert);
-		message_exit("Cannot create socket.", EXIT_FAILURE, 0);
+		message_exit("Cannot create socket. Are you root ?", EXIT_FAILURE, 0);
 	}
 
 	if ((tracert->rcv_socket = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) == -1)
 	{
-		perror("socket");
 		free_tracert(tracert);
-		message_exit("Cannot create rcv socket.", EXIT_FAILURE, 0);
+		message_exit("Cannot create rcv socket. Are you root ?", EXIT_FAILURE, 0);
 	}
 }
 
@@ -53,10 +52,6 @@ void	ft_traceroute(t_traceroute *tracert)
 	ft_bzero(snd_buffer, PACKETSIZE);
 	ft_bzero(&last_ip, sizeof(last_ip));
 
-	printf("traceroute to %s (%s), %d hops max, %d byte packets\n", \
-		tracert->name_or_service, inet_ntoa(tracert->ipv4.sin_addr), \
-		MAXHOPS, PACKETSIZE);
-
 	// prepare request ICMP (-I)
 	struct icmphdr echo_icmp;
 	ft_bzero(&echo_icmp, sizeof(echo_icmp));
@@ -72,6 +67,10 @@ void	ft_traceroute(t_traceroute *tracert)
 
 	// probes timeouts
 	set_probes_timeout(tracert, PROBES_TIMEOUT);
+
+	printf("traceroute to %s (%s), %d hops max, %d byte packets\n", \
+		tracert->name_or_service, inet_ntoa(tracert->ipv4.sin_addr), \
+		MAXHOPS, PACKETSIZE);
 
 	for (hop = 1; hop <= MAXHOPS; hop++)
 	{

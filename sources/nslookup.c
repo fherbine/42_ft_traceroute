@@ -13,7 +13,7 @@
 #include "../includes/ft_traceroute.h"
 
 
-void				dnslookup(char *host, t_sockaddr *addr, uint8_t ipver)
+void				dnslookup(char *host, t_sockaddr *addr, uint8_t ipver, t_traceroute *tracert)
 {
 	t_addrinfo		hints;
 	t_addrinfo		*first_info;
@@ -23,8 +23,11 @@ void				dnslookup(char *host, t_sockaddr *addr, uint8_t ipver)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags |= AI_CANONNAME;
 	if (getaddrinfo(host, NULL, &hints, &first_info))
-		message_description_exit(host, \
-								 "Name or service not known", EXIT_FAILURE);
+	{
+		message_description(host, "Name or service not known", 0, FALSE);
+		printf("Cannot handle \"host\" cmdLine arg `%s' on position 1 (argc %d)\n", host, tracert->nos_index);
+		exit(EXIT_FAILURE);
+	}
 	
 	if (!first_info)
 		exit(EXIT_FAILURE);
