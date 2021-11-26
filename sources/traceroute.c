@@ -34,31 +34,38 @@ static void create_sockets(t_traceroute *tracert)
 
 void	ft_traceroute(t_traceroute *tracert)
 {
-	uint8_t buffer_size = PACKETSIZE - (sizeof(struct iphdr) + UDP_HEADER_SIZE);
+	uint8_t buffer_size_udp = PACKETSIZE - (sizeof(struct iphdr) + UDP_HEADER_SIZE);
+	uint8_t buffer_size_icmp = PACKETSIZE - sizeof(struct iphdr);
 	char snd_buffer[PACKETSIZE];
 	char rcv_buffer[1024];
 	uint8_t hop, last_icmp_type = ICMP_TIME_EXCEEDED;
 	struct in_addr last_ip;
 
-	t_sockaddr_in servaddr, remote;
+	t_sockaddr_in servaddr;
 	memset(&servaddr, 0, sizeof(servaddr));
-	memset(&remote, 0, sizeof(remote));
        
     // Filling server information
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(33434);
     servaddr.sin_addr.s_addr = tracert->ipv4.sin_addr.s_addr;
 
-	// Filling server information
-    remote.sin_family = AF_INET;
-    remote.sin_addr.s_addr = inet_addr("0.0.0.0");
-
 	// bzeros
 	ft_bzero(snd_buffer, PACKETSIZE);
 	ft_bzero(&last_ip, sizeof(last_ip));
+
 	printf("traceroute to %s (%s), %d hops max, %d byte packets\n", \
 		tracert->name_or_service, inet_ntoa(tracert->ipv4.sin_addr), \
 		MAXHOPS, PACKETSIZE);
+
+	// prepare request ICMP (-I)
+	struct icmphdr echo_icmp;
+	ft_bzero(&echo_icmp, sizeof(echo_icmp));
+	echo_icmp.type = ICMP_ECHO;
+	echo_icmp.un.echo.id = (uint16_t)getpid();
+	echo_icmp.checksum = compile_checksum(&echo_icmp, sizeof(echo_icmp));
+
+	if (tracert->options & TRACERT_OPT_ICMP)
+		ft_memcpy(snd_buffer, &echo_icmp, sizeof(echo_icmp));
 
 	// Création socket
 	create_sockets(tracert);
@@ -80,8 +87,9 @@ void	ft_traceroute(t_traceroute *tracert)
 
 		for (uint8_t probe = 0; probe < 3; probe++)
 		{
-			uint32_t len = sizeof(remote);
-			int8_t bsent = sendto(tracert->snd_socket, snd_buffer, buffer_size, \
+			int8_t bsent = sendto(tracert->snd_socket, \
+				snd_buffer, \
+				(tracert->options & TRACERT_OPT_ICMP) ? buffer_size_icmp : buffer_size_udp, \
 				0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 			if (bsent < 0)
 			{
@@ -93,7 +101,7 @@ void	ft_traceroute(t_traceroute *tracert)
 			t_time sent_ts = getnow();
 
 			int8_t breceived = recvfrom(tracert->rcv_socket, (char *)rcv_buffer, 1023, MSG_WAITALL,
-			 (struct sockaddr *) &remote, &len);
+			 NULL, NULL);
 			if (breceived < 0)
 			{
 				if (errno == EAGAIN)
@@ -104,6 +112,7 @@ void	ft_traceroute(t_traceroute *tracert)
 				else
 					message_exit("Cannot receive message.", EXIT_FAILURE, 0);
 			}
+
 			t_time received_ts = getnow();
 			struct ip *ip = (struct ip *)rcv_buffer;
 			struct icmphdr *icmp = (void *)rcv_buffer + sizeof(struct iphdr);

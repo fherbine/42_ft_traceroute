@@ -68,30 +68,30 @@ typedef struct		s_traceroute
 /* prototypes */
 
 /** error.c **/
-void	proper_exit(int status, t_traceroute *tracert);
-void	display_help(int status);
-void	message_description_exit(char *identifier, char *msg, int status);
-void	invalid_option(char option_char);
-void	message_exit(char *msg, int status, uint8_t with_help);
+void		proper_exit(int status, t_traceroute *tracert);
+void		display_help(int status);
+void		message_description_exit(char *identifier, char *msg, int status);
+void		invalid_option(char option_char);
+void		message_exit(char *msg, int status, uint8_t with_help);
 
 /* nslookup.c */
-void	dnslookup(char *host, t_sockaddr *addr, uint8_t ipver);
-void	reversedns4(t_sockaddr_in *addr, char **host);
+void		dnslookup(char *host, t_sockaddr *addr, uint8_t ipver);
+void		reversedns4(t_sockaddr_in *addr, char **host);
 
 /* parser.c */
-void	parse(int argc, char **argv, t_traceroute *tracert);
+void		parse(int argc, char **argv, t_traceroute *tracert);
 
 /* main.c */
-void 	free_tracert(t_traceroute *tracert);
+void 		free_tracert(t_traceroute *tracert);
 
 /* traceroute.c */
-void	ft_traceroute(t_traceroute *tracert);
+void		ft_traceroute(t_traceroute *tracert);
 
 /* utils.c */
-t_time 	getnow(void);
-
+uint16_t	compile_checksum(void *addr, ssize_t count);
+t_time 		getnow(void);
 
 /* debug.c */
-void	print_buffer(void *buffer_addr, ssize_t len);
+void		print_buffer(void *buffer_addr, ssize_t len);
 
 #endif
