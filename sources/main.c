@@ -33,7 +33,7 @@ int					main(int argc, char **argv)
 	t_traceroute *tracert = get_tracert_struct();
 	parse(argc, argv, tracert);
 	dnslookup(tracert->name_or_service, (t_sockaddr *)&(tracert->ipv4), AF_INET);
-	printf("IP is %s\n", inet_ntoa(tracert->ipv4.sin_addr));
+	ft_traceroute(tracert);
 	free_tracert(tracert);
 	return (0);
 }

@@ -44,10 +44,10 @@ void				dnslookup(char *host, t_sockaddr *addr, uint8_t ipver)
 	freeaddrinfo(first_info);
 }
 
-void			reversedns4(t_sockaddr_in *addr, t_nameinfo *info)
+void			reversedns4(t_sockaddr_in *addr, char **host)
 {
-	ft_bzero(info, sizeof(t_nameinfo));
-	ft_bzero(info->host, NI_MAXHOST);
-	if (getnameinfo((t_sockaddr *)addr, sizeof(t_sockaddr), info->host, NI_MAXHOST, NULL, 0, 0))
-		exit(EXIT_FAILURE);
+	*host = (char *)malloc(sizeof(char) * NI_MAXHOST);
+	ft_bzero(*host, NI_MAXHOST);
+	if (getnameinfo((t_sockaddr *)addr, sizeof(t_sockaddr), *host, NI_MAXHOST, NULL, 0, 0))
+		ft_strcpy(*host, inet_ntoa(addr->sin_addr));
 }

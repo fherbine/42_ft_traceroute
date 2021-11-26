@@ -69,4 +69,7 @@ void		parse(int argc, char **argv, t_traceroute *tracert)
 		free_tracert(tracert);	
 		display_help(EXIT_SUCCESS);
 	}
+
+	if (!(tracert->options & TRACERT_OPT_ICMP))
+		tracert->ipv4.sin_port = htons(UDP_PORT);
 }
