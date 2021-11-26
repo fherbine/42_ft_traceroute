@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_ping.h"
+#include "../includes/ft_traceroute.h"
 
 void print_buffer(void *buffer_addr, ssize_t len)
 {
