@@ -19,7 +19,7 @@ static void		display_option(char *letter, char *description, char *placeholder)
 
 void		display_help(int status)
 {
-	printf("\nUsage\n");
+	printf("Usage\n");
 	printf("  ./ft_traceroute [ -I ] <destination>\n");
 	printf("\nOptions:\n");
 	display_option("", "  dns name or ip address", "<destination>");
