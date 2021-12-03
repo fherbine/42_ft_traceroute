@@ -40,7 +40,7 @@
 # define PACKETSIZE 60
 # define UDP_PORT 33434
 # define UDP_HEADER_SIZE 8
-# define PROBES_TIMEOUT 5
+# define PROBES_TIMEOUT 1
 
 /** options defines **/
 # define TRACERT_OPT_HELP 0x01

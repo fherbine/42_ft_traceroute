@@ -99,7 +99,7 @@ void	ft_traceroute(t_traceroute *tracert)
 			}
 			t_time sent_ts = getnow();
 
-			int8_t breceived = recvfrom(tracert->rcv_socket, (char *)rcv_buffer, 1023, MSG_WAITALL,
+			ssize_t breceived = recvfrom(tracert->rcv_socket, (char *)rcv_buffer, 1023, MSG_WAITALL,
 			 NULL, NULL);
 			if (breceived < 0)
 			{
