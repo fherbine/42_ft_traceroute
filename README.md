@@ -3,6 +3,13 @@ ft_traceroute
 
 Basically a reproduction of the `traceroute` command (Windows `tracert`), developped in C language.
 
+## Prerequisites
+
+You'll have to install `libcurl` to run the program:
+```sh
+$ sudo apt install libcurl4-openssl-dev
+```
+
 ## How to compile 
 
 This project `Makefile` uses `clang` as C compiler, please make sure clang is installed,
