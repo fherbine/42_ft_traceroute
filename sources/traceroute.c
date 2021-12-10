@@ -126,6 +126,13 @@ void	ft_traceroute(t_traceroute *tracert)
 				reversedns4(&srcip, &host);
 				printf("%s (%s) ", host, inet_ntoa(ip->ip_src));
 				free(host);
+
+				if (tracert->options & TRACERT_OPT_LOC) {
+					char *locstr = get_ip_location_str(&srcip);
+					printf("%s ", locstr);
+					free(locstr);
+				}
+
 				last_ip = ip->ip_src;
 			}
 			printf(" %.3f ms ", (received_ts - sent_ts));

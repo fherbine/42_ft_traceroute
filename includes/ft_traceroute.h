@@ -3,7 +3,12 @@
 
 /* libft */
 # include "../libft/libft.h"
-# include <errno.h>
+
+/* location */
+# include "./location.h"
+
+/* json */
+# include "./json.h"
 
 /* printf funcs */
 # include <stdio.h>
@@ -30,6 +35,8 @@
 /* timeval struct */
 # include <sys/time.h>
 
+# include <errno.h>
+
 /* defines & macros */
 
 /** debug **/
@@ -45,6 +52,7 @@
 /** options defines **/
 # define TRACERT_OPT_HELP 0x01
 # define TRACERT_OPT_ICMP 0x02
+# define TRACERT_OPT_LOC 0x04
 
 /* typedefs */
 typedef struct addrinfo t_addrinfo;
@@ -95,5 +103,6 @@ t_time 		getnow(void);
 
 /* debug.c */
 void		print_buffer(void *buffer_addr, ssize_t len);
+void 		print_json_dict(t_json *json);
 
 #endif

@@ -24,6 +24,7 @@ void		display_help(int status)
 	printf("\nOptions:\n");
 	display_option("", "  dns name or ip address", "<destination>");
 	display_option("-I", "Use ICMP ECHO for tracerouting", "");
+	display_option("-L", "Output location at each probe return", "");
 	display_option("-h", "print help and exit", "");
 	exit(status);
 }

@@ -44,6 +44,8 @@ static void	get_args(int start, int end, char **tab, t_traceroute **tracert)
 				(*tracert)->options |= TRACERT_OPT_HELP;
 			else if (option == 'I')
 				(*tracert)->options |= TRACERT_OPT_ICMP;
+			else if (option == 'L')
+				(*tracert)->options |= TRACERT_OPT_LOC;
 			else
 			{
 				free_tracert(*tracert);

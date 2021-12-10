@@ -30,3 +30,50 @@ void print_buffer(void *buffer_addr, ssize_t len)
 	}
 	printf("\n");
 }
+
+void print_json_dict(t_json *json)
+{
+	char types[7][255] = {
+		"null_type",
+		"bool_type",
+		"int_type",
+		"float_type",
+		"string_type",
+		"list_type",
+		"dict_type"
+	};
+	
+	t_json_dict *p = (t_json_dict *)json->data;
+
+	while (p)
+	{
+		printf("%s %s %p", p->key, types[p->param_type], p->parameter);
+		switch (p->param_type)
+		{
+		case JSON_TYPE_NULL:
+			printf("\t(null)");
+			break;
+
+		case JSON_TYPE_BOOL:
+			printf("\t%s", (*((uint8_t *)p->parameter)) ? "true": "false");
+			break;
+
+		case JSON_TYPE_INT:
+			printf("\t%d", (*((int64_t *)p->parameter)));
+			break;
+
+		case JSON_TYPE_FLOAT:
+			printf("\t%lf", (*((double *)p->parameter)));
+			break;
+
+		case JSON_TYPE_STR:
+			printf("\t%s", (char *)p->parameter);
+			break;
+		default:
+			break;
+		}
+		p = p->next;
+		printf("\n");
+	}
+	
+}

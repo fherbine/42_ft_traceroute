@@ -49,7 +49,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@echo "✅ Source files: 81 / 81\033[0m --> \033[1;32m[Done]\033[0m"
 
 $(OBJ_PATH)/%.o: %.c
-	@$(CC) $(CFLAGS) $(IFLAGS) -c $? -o $@
+	@$(CC) -g $(CFLAGS) $(IFLAGS) -c $? -o $@
 	@echo "🔧 Source files: $(shell ls -1 $(OBJ_PATH) | wc -l) / 81\r\c"
 
 clean:

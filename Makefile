@@ -2,12 +2,13 @@ NAME = ft_traceroute
 INCLUDES = ./includes
 SRC_PATH = ./sources
 OBJ_PATH = $(SRC_PATH)/debug
-SRC_NAMES = main.c traceroute.c nslookup.c error.c parser.c debug.c utils.c
+SRC_NAMES = main.c traceroute.c nslookup.c error.c parser.c debug.c utils.c \
+			json.c location.c
 OBJ_NAMES = $(SRC_NAMES:.c=.o)
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAMES))
 OBJS = $(addprefix $(OBJ_PATH)/,$(OBJ_NAMES))
-LUTILS_PATH = ./libft
-LUFLAGS = -L$(LUTILS_PATH) -lft
+LFT_PATH = ./libft
+LFLAGS = -L$(LFT_PATH) -lft -lcurl
 IFLAGS = -I$(INCLUDES)
 CFLAGS = -Wall -Wextra -Werror 
 DFLAGS = 
@@ -27,8 +28,8 @@ $(OBJ_PATH):
 $(NAME): welcome $(OBJ_PATH) $(OBJS)
 	@echo "✅ Source files: $(shell echo $(SRC_NAMES) | wc -w) / $(shell echo $(SRC_NAMES) | wc -w)\033[0m --> \033[1;32m[Done]\033[0m\n"
 	@echo "\e[4;35mBuilding Libft:\e[0m"
-	@make -C $(LUTILS_PATH) --no-print-directory
-	@$(CC) $(DFLAGS) -o $@ $(OBJS) $(LUFLAGS)
+	@make -C $(LFT_PATH) --no-print-directory
+	@$(CC) $(DFLAGS) -o $@ $(OBJS) $(LFLAGS)
 	@echo "\n"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
@@ -37,7 +38,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 
 clean:
 	@rm -rf $(OBJ_PATH)
-	@make -C $(LUTILS_PATH) fclean --no-print-directory
+	@make -C $(LFT_PATH) fclean --no-print-directory
 
 fclean: clean
 	@rm -rf $(NAME)
