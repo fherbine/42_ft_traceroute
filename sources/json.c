@@ -5,19 +5,6 @@ static void 		free_json_dict(t_json_dict *dct);
 static t_json_list	*parse_list(char *str);
 static t_json_dict	*parse_dict(char *str);
 
-// static ssize_t json_list_len(t_json_list *lst)
-// {
-// 	t_json_list *p = lst;
-// 	ssize_t i = 0;
-// 
-// 	while (p) {
-// 		i++;
-// 		p = p->next;
-// 	}
-// 	
-// 	return (i);
-// }
-
 static t_json_list *json_list_add_elem(t_json_list *lst, void *elem, uint8_t type)
 {
 	t_json_list *newelem = NULL;
@@ -32,18 +19,6 @@ static t_json_list *json_list_add_elem(t_json_list *lst, void *elem, uint8_t typ
 	return (newelem);
 }
 
-// static ssize_t json_dict_len(t_json_dict *dct)
-// {
-// 	t_json_dict *p = dct;
-// 	ssize_t i = 0;
-// 
-// 	while (p) {
-// 		i++;
-// 		p = p->next;
-// 	}
-// 	
-// 	return (i);
-// }
 
 static t_json_dict *json_dict_add_elem(t_json_dict *dct, char *key, void *parameter, uint8_t param_type)
 {
@@ -115,26 +90,6 @@ static void free_json_dict(t_json_dict *dct)
 		p = p->next;
 		free(_tmp);
 	}
-}
-
-static char *jsonstr_clean(char *str)
-{
-	str = ft_strtrim(str);
-	char *newstr = ft_strnew(ft_strlen(str));
-
-	uint32_t i = 0, i2 = 0;
-
-	while (str[i])
-	{
-		if (str[i] != ' ' && str[i] != '\n' && str[i] != '\t') {
-			newstr[i2] = str[i];
-			i2++;
-		}
-		i++;
-	}
-
-	free(str);
-	return (newstr);
 }
 
 static uint8_t rematch(char *str, const char *regstr)

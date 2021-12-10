@@ -59,7 +59,7 @@ void print_json_dict(t_json *json)
 			break;
 
 		case JSON_TYPE_INT:
-			printf("\t%d", (*((int64_t *)p->parameter)));
+			printf("\t%ld", (*((int64_t *)p->parameter)));
 			break;
 
 		case JSON_TYPE_FLOAT:
