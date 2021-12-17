@@ -3,6 +3,8 @@ ft_traceroute
 
 Basically a reproduction of the `traceroute` command (Windows `tracert`), developped in C language.
 
+Final grade: **121/100**
+
 ## Prerequisites
 
 You'll have to install `libcurl` to run the program:
